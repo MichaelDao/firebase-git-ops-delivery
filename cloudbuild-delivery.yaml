@@ -1,0 +1,4 @@
+steps:
+  - id: firestore_upload_samples
+    name: "gcr.io/$PROJECT_ID/upload-firestore:v1"
+    args: ["--projectid=$PROJECT_ID"]
