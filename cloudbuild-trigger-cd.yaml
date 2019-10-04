@@ -1,0 +1,33 @@
+steps:
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: Clone_env_repository
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - |
+        gcloud source repos clone cloudbuild-env && \
+        cd cloudbuild-env && \
+        git checkout candidate && \
+        git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+
+  # This step generates the new manifest
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: Generate_file
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - |
+        git rev-parse HEAD > commit.txt
+
+  # This step pushes the manifest back to hello-cloudbuild-env
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: Push_file
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - |
+        set -x && \
+        cd cloudbuild-env && \
+        git add commit.txt && \
+        git commit -m "Deploying from commit ${COMMIT_SHA}" && \
+        git push origin candidate

@@ -1,7 +1,7 @@
 steps:
   # Step 1 will upload sample data with firestore
   - id: firestore_upload_samples
-    name: "gcr.io/$PROJECT_ID/upload-firestore:v1"
+    name: "asia.gcr.io/$PROJECT_ID/upload-firestore:v1"
     args: ["--projectid=$PROJECT_ID"]
 
   # Step 2 will copy to the production branch to confirm successful builds
