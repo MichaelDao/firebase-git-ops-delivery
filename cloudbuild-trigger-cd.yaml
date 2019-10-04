@@ -17,7 +17,7 @@ steps:
     args:
       - "-c"
       - |
-        git rev-parse HEAD > commit.txt
+        echo hello > file.txt
 
   # This step pushes the manifest back to hello-cloudbuild-env
   - name: "gcr.io/cloud-builders/gcloud"
@@ -28,6 +28,6 @@ steps:
       - |
         set -x && \
         cd cloudbuild-env && \
-        git add commit.txt && \
+        git add file.txt && \
         git commit -m "Deploying from commit ${COMMIT_SHA}" && \
         git push origin candidate
