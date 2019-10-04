@@ -17,7 +17,7 @@ steps:
 
         # Switch to the production branch and copy the kubernetes.yaml file from the candidate branch
         git fetch origin production && git checkout production && \
-        git checkout $COMMIT_SHA version.txt && \
+        git checkout $COMMIT_SHA file.txt && \
 
         # Commit the kubernetes.yaml file with a descriptive commit message
         git commit -m "Manifest from commit $COMMIT_SHA

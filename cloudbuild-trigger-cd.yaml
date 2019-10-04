@@ -10,15 +10,6 @@ steps:
         git checkout candidate && \
         git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
-  # This step generates the new manifest
-  - name: "gcr.io/cloud-builders/gcloud"
-    id: Generate_file
-    entrypoint: /bin/sh
-    args:
-      - "-c"
-      - |
-        echo hello > file.txt
-
   # This step pushes the manifest back to hello-cloudbuild-env
   - name: "gcr.io/cloud-builders/gcloud"
     id: Push_file
@@ -28,6 +19,7 @@ steps:
       - |
         set -x && \
         cd cloudbuild-env && \
+        echo ${COMMIT_SHA} > file.txt
         git add file.txt && \
         git commit -m "Deploying from commit ${COMMIT_SHA}" && \
         git push origin candidate
